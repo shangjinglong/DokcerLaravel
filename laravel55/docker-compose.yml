@@ -1,0 +1,40 @@
+nginx:
+  image: shangjinglong/laravel_nginx:latest
+  ports:
+    - "80:80"
+  links:
+    - "php"
+  volumes:
+    - ~/home/wwwconf/nginx:/etc/nginx
+    - ~/home/wwwroot:/home/wwwroot
+    - ~/home/wwwlogs/nginx:/home/wwwlogs/nginx
+    - ~/home:/home
+
+php:
+  image: shangjinglong/laravel_php7:latest
+  ports:
+    - "8000:8000"
+    - "9000:9000"
+  links:
+    - "mysql"
+    - "redis"
+  volumes:
+    - ~/home/wwwconf/php:/usr/local/etc
+    - ~/home/wwwlogs/php:/home/wwwlogs/php
+    - ~/home:/home
+
+mysql:
+  image: shangjinglong/laravel_mysql:latest
+  ports:
+    - "3306:3306"
+  volumes:
+    - ~/home/wwwconf/mysql:/etc/mysql
+    - ~/home/wwwdata/mysql:/var/lib/mysql
+    - ~/home:/home
+  environment:
+    MYSQL_ROOT_PASSWORD: 123456
+
+redis:
+  image: shangjinglong/laravel_redis:latest
+  ports:
+    - "6379:6379"
